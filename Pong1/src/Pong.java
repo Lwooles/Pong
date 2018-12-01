@@ -17,6 +17,6 @@ import javax.swing.JFrame;
   
       public static void main(String[] args) {
           new Pong();
-          
+          new Pong();
       }
  } 
