@@ -1,6 +1,7 @@
  import java.awt.BasicStroke;
  import java.awt.Color;
- import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Graphics;
  import java.awt.Graphics2D;
  import java.awt.Stroke;
  import java.awt.event.ActionEvent;
@@ -51,6 +52,7 @@
             	  moveObject(ball);
             	  checkWallBounce();
             	  checkPaddleBounce();
+            	  checkWin();  
                   break;
               }
               case GameOver: {
@@ -68,10 +70,12 @@
           if(ball.getXPosition() <= 0) {
               // Hit left side of screen
               ball.setXVelocity(-ball.getXVelocity());
+              addScore(Player.Two);
               resetBall();
           } else if(ball.getXPosition() >= getWidth() - ball.getWidth()) {
               // Hit right side of screen
               ball.setXVelocity(-ball.getXVelocity());
+              addScore(Player.One);
               resetBall();
           }
           if(ball.getYPosition() <= 0 || ball.getYPosition() >= getHeight() - ball.getHeight()) {
@@ -139,6 +143,8 @@
               paintSprite(g, ball);
               paintSprite(g, paddle1);
               paintSprite(g, paddle2);
+              paintScores(g);
+              paintWinner(g);
   
           }
       }     
@@ -150,7 +156,65 @@
               ball.setXVelocity(-BALL_MOVEMENT_SPEED);
           }
       }
-
+      private final static int POINTS_TO_WIN = 3;
+      int player1Score = 0, player2Score = 0;
+      Player gameWinner;
+ 
+      
+      private int addScore(Player player) {
+    	  if(player==Player.One) {
+    		  player1Score++;
+    	  }else if (player==Player.Two) {
+    		  player2Score++;
+    	  }
+    	  
+    	  return(1);
+      }
+      
+      private void checkWin() {
+          if(player1Score >= POINTS_TO_WIN) {
+              gameWinner = Player.One;
+              gameState = GameState.GameOver;
+              
+          } else if(player2Score >= POINTS_TO_WIN) {
+              gameWinner = Player.Two;
+              gameState = GameState.GameOver;
+          }
+      }
+      private final static int SCORE_TEXT_X = 100;
+      private final static int SCORE_TEXT_Y = 100;
+      private final static int SCORE_FONT_SIZE = 50;
+      private final static String SCORE_FONT_FAMILY = "Serif";
+      
+      private void paintScores(Graphics g) {
+          Font scoreFont = new Font(SCORE_FONT_FAMILY, Font.BOLD, SCORE_FONT_SIZE);
+         String leftScore = Integer.toString(player1Score);
+         String rightScore = Integer.toString(player2Score);
+         g.setFont(scoreFont);
+         g.drawString(leftScore, SCORE_TEXT_X, SCORE_TEXT_Y);
+         g.drawString(rightScore, getWidth()-SCORE_TEXT_X, SCORE_TEXT_Y);
+     }
+      private final static int WINNER_TEXT_X = 200;
+      private final static int WINNER_TEXT_Y = 200;
+      private final static int WINNER_FONT_SIZE = 40;
+      private final static String WINNER_FONT_FAMILY = "Serif";
+      private final static String WINNER_TEXT = "WIN!";
+  
+      private void paintWinner(Graphics g) {
+          if(gameWinner != null) {
+              Font winnerFont = new Font(WINNER_FONT_FAMILY, Font.BOLD, WINNER_FONT_SIZE);
+             g.setFont(winnerFont);
+             int xPosition = getWidth() / 2;
+             if(gameWinner == Player.One) {
+                 xPosition = WINNER_TEXT_X;
+             } else if(gameWinner == Player.Two) {
+                 xPosition = WINNER_TEXT_X;
+             }
+             g.drawString(WINNER_TEXT, xPosition, WINNER_TEXT_Y);
+         }
+     }
+  
  }
+ 
 
  
