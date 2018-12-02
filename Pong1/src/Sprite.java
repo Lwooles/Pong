@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Rectangle;
 
 public class Sprite {
        private int xPosition, yPosition;
@@ -64,6 +65,10 @@ public class Sprite {
        }
        public void setColour(Color Colour) {
        }
+       public Rectangle getRectangle() {
+    	    
+    	   return new Rectangle(getXPosition(), getYPosition(), getWidth(), getHeight());
+    	   }
        }
 
   
