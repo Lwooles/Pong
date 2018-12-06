@@ -14,7 +14,7 @@ import java.awt.Graphics;
   
  public class PongPanel extends JPanel implements ActionListener, KeyListener {	 
       
-      private final static Color BACKGROUND_COLOUR = Color.BLACK;
+      private final static Color BACKGROUND_COLOUR = Color.WHITE;
       private final static int TIMER_DELAY = 5;
       
       GameState gameState = GameState.Initialising;
@@ -90,7 +90,7 @@ import java.awt.Graphics;
          Graphics2D g2d = (Graphics2D) g.create();
              Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
              g2d.setStroke(dashed);
-             g2d.setPaint(Color.WHITE);
+             g2d.setPaint(Color.BLACK);
              g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
              g2d.dispose();
       }
@@ -156,7 +156,7 @@ import java.awt.Graphics;
               ball.setXVelocity(-BALL_MOVEMENT_SPEED);
           }
       }
-      private final static int POINTS_TO_WIN = 3;
+      private final static int POINTS_TO_WIN = 11;
       int player1Score = 0, player2Score = 0;
       Player gameWinner;
  
@@ -206,9 +206,9 @@ import java.awt.Graphics;
              g.setFont(winnerFont);
              int xPosition = getWidth() / 2;
              if(gameWinner == Player.One) {
-                 xPosition = WINNER_TEXT_X;
-             } else if(gameWinner == Player.Two) {
-                 xPosition = WINNER_TEXT_X;
+                 xPosition -= WINNER_TEXT_X;
+             } else if(gameWinner ==Player.Two) {
+                 xPosition += WINNER_TEXT_X;
              }
              g.drawString(WINNER_TEXT, xPosition, WINNER_TEXT_Y);
          }
